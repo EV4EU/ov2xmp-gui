@@ -1,0 +1,28 @@
+// src/apiService.js
+
+/**
+ * Fetches charging points from the given API endpoint.
+ * @param {string} apiUrl - The base URL of the API.
+ * @param {string} token - The authorization token.
+ * @returns {Promise<Object>} - A promise that resolves to the fetched data.
+ */
+export const fetchChargingPoints = async (apiUrl, token) => {
+  let headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  headers.append("Accept", "application/json");
+  headers.append("Authorization", `Bearer ${token}`);
+
+  const requestOptions = {
+    method: "GET",
+    credentials: "same-origin",
+    headers,
+  };
+
+
+  const fetchResponse = await fetch(apiUrl, requestOptions);
+  if (!fetchResponse.ok) {
+    throw new Error(`Error fetching data: ${fetchResponse.statusText}`);
+  }
+
+  return await fetchResponse.json(); // Return the parsed JSON response
+};

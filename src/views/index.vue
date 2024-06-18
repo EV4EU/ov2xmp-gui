@@ -385,12 +385,12 @@
             <div class="panel h-full">
               <div class="flex items-center">
                 <h5 class="font-semibold text-lg dark:text-white-light">
-                  <span class="text-primary ml-2">Transaction History Graph</span>
+                  <span class="text-primary ml-2">Daily Capacity Schedule for</span> 15/5/2024
                 </h5>
               </div>
               <div class="relative">
                 <apexchart height="325" :options="columnChart" :series="columnChartSeries" class="bg-white dark:bg-black rounded-lg overflow-hidden">
-                  <!-- loader -->
+                  <!-- loader areaChart areaChartSeries columnChart columnChartSeries-->
                   <div class="min-h-[325px] grid place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
                     <span class="animate-spin border-2 border-black dark:border-white !border-l-transparent rounded-full w-5 h-5 inline-flex"></span>
                   </div>
@@ -425,35 +425,26 @@
                                     <label for="username">User Name</label>
                                     <span class="text-primary ml-2">{{ Task_14_response[0].user__username }}</span>
                                 </div>
-                                <div>
-                                    <label for="Vehicle_Information">Vehicle Information</label>
-                                    <span class="text-primary ml-2">Opel Mokka</span>
-                                </div>
-                                <div>
-                                    <label for="Charge_Characteristics">Charge Characteristics</label>
-                                    <span class="text-primary ml-2">Under 1 hour charge</span>
-                                </div>
-
                                 
                                 <div>
-                                  <label for="Power_Type">Payment Preference</label>
+                                    <label for="Power_Type">Socket type</label>
                                     <div class="relative text-white-dark">
-                                      <select id="Power_Type" class="form-input ps-10 placeholder:text-white-dark">
-                                      <option value="" disabled selected>Select Payment Type</option>
-                                      <option value="Cash">Cash</option>
-                                      <option value="Card">Card</option>
+                                      <select id="Power_Type" class="form-input ps-10 placeholder:text-white-dark w-1/2 mr-4">
+                                        <option value="" disabled selected>CCS2</option>
+                                        <option value="AC_1_PHASE">AC 1 Phase</option>
+                                        <option value="AC_3_PHASE">AC 3 Phase</option>
+                                        <option value="DC">DC</option>
                                       </select>
                                       <span class="text-primary ml-2"></span>
-                                      
-                                  
+                                    </div>
                                   </div>
-                                </div>
+
 
                                 
                                 <div>
                                   <label for="Tariff">Tariff Preference</label>
                                     <div class="relative text-white-dark">
-                                        <input  id="Tariff" type="number" placeholder="  Tariff preference" step="any"  class="form-input ps-10 placeholder:text-white-dark" />
+                                        <input  id="Tariff" type="number" placeholder="0.08" step="any"  class="form-input ps-10 placeholder:text-white-dark w-1/2 mr-4" />
                                         <span class="text-primary ml-2"></span>
                                        
                                     </div>
@@ -1837,7 +1828,7 @@
         <TabPanel>
 
           <div class="max-h-144 overflow-y-auto p-4 bg-white dark:bg-[#0e1726] rounded-md border border-[#ebedf2] dark:border-[#191e3a]">
-            <form class="space-y-5" @submit.prevent="print_tarrif_main_id"> <!--@submit.prevent="submitTarriffElement_inputs()"-->
+            <form class="space-y-5" @submit.prevent="submitForm"> <!--@submit.prevent="submitTarriffElement_inputs()"-->
 
                   <div class="table-responsive gap-6 mb-6 max-h-72 overflow-y-auto" >
                         <table class="table-hover">
@@ -1912,6 +1903,8 @@
 
                   <!-- ===================================================================TARIFF MAIN=======================================================================-->
                   <hr class="my-4 border-t border-gray-300 dark:border-gray-700">
+
+
                       <div class="table-responsive gap-6 mb-6 max-h-96 overflow-y-auto">
                         <table class="table-hover">
                           <thead>
@@ -1956,6 +1949,8 @@
                           </tbody>
                         </table>
                       </div>
+
+
                       <hr class="my-4 border-t border-gray-300 dark:border-gray-700">
                         <!-- Tarriff Declaration BODY -->
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -1971,96 +1966,128 @@
                             </select>
                           </div>
 
-                            <div>
-                              <label for="tariff_alt_text_language">Tariff Alt Language</label>
-                              <select id="tariff_alt_text_language" class="form-select w-7/8 mr-4" v-model="TarriffElement_inputs.tariff_alt_text_language" >
-                                  <!-- List of languages -->
-                                  <option value="en">English</option>
-                                  <option value="en">Greek</option>
-                                  <option value="es">Spanish</option>
-                                  <option value="fr">French</option>
-                                  <option value="de">German</option>
-                                  <option value="zh">Chinese</option>
-                                  <option value="ja">Japanese</option>
-                                  <option value="ru">Russian</option>
-                                  <option value="ar">Arabic</option>
-                                  <!-- Add more languages as needed -->
-                              </select>
-                            </div>
-                            <div>
-                                <label for="tariff_alt_text_text">Tariff Alt Text</label>
-                                <input id="tariff_alt_text_text" type="text" placeholder="Tariff Text" class="form-input" v-model="TarriffElement_inputs.tariff_alt_text_text" />
-                            </div>
-                            <div>
-                            <label for="min_price_excl_vat">Min Price Excl Vat</label>
-                            <input id="min_price_excl_vat" type="number" placeholder="Minimum Price Excluding Vat" class="form-input" step="any" v-model="TarriffElement_inputs.min_price_excl_vat" />
-                            </div>
-                            <div>
-                            <label for="min_price_incl_vat">Min Price Incl Vat</label>
-                            <input id="min_price_incl_vat" type="number" placeholder="Minimum Price Including Vat" class="form-input" step="any" v-model="TarriffElement_inputs.min_price_incl_vat" />
-                            </div>
-                            <div>
-                            <label for="max_price_excl_vat">Max Price Excl Vat</label>
-                            <input id="max_price_excl_vat" type="number" placeholder="Maximum Price Excluding Vat" class="form-input" step="any" v-model="TarriffElement_inputs.max_price_excl_vat" />
-                            </div>
-                            <div>
-                            <label for="max_price_incl_vat">Max Price Incl Vat</label>
-                            <input id="max_price_incl_vat" type="number" placeholder="Maximum Price Including Vat" class="form-input" step="any" v-model="TarriffElement_inputs.max_price_incl_vat"/>
-                            </div>
-                            <div>
-                              <label for="tarriff_countrycode">Country Code</label>
-                              <input id="tarriff_countrycode" type="text" placeholder="Enter Country Code" maxlength="2" minlength="2"  pattern="[A-Za-z]{2}" class="form-input" v-model="TarriffElement_inputs.tarriff_countrycode"/><!-- required -->
-                            </div>
-                            <div>
-                              <label for="tarriff_party_id">Party ID</label>
-                              <input id="tarriff_party_id" type="text" placeholder="Enter Party ID"  maxlength="3" minlength="3"  pattern="[A-Za-z]{2}" class="form-input" v-model="TarriffElement_inputs.tarriff_party_id"/><!-- required -->
-                            </div>
-                            <div>
-                            <label for="currency">Currency</label>
-                              <select id="currency" class="form-select w-7/8 mr-4" v-model="TarriffElement_inputs.currency" >
-                              <option value="EUR">Euro (EUR)</option>
-                              <option value="USD">United States Dollar (USD)</option>
-                              <option value="JPY">Japanese Yen (JPY)</option>
-                              <option value="GBP">British Pound (GBP)</option>
-                              <option value="AUD">Australian Dollar (AUD)</option>
-                              <option value="CAD">Canadian Dollar (CAD)</option>
-                              <option value="CHF">Swiss Franc (CHF)</option>
-                              <option value="CNY">Chinese Yuan (CNY)</option>
-                              <option value="SEK">Swedish Krona (SEK)</option>
-                              <option value="NZD">New Zealand Dollar (NZD)</option>
-                              <option value="MXN">Mexican Peso (MXN)</option>
-                              <option value="SGD">Singapore Dollar (SGD)</option>
-                              <option value="HKD">Hong Kong Dollar (HKD)</option>
-                              <option value="NOK">Norwegian Krone (NOK)</option>
-                              <option value="KRW">South Korean Won (KRW)</option>
-                              <option value="TRY">Turkish Lira (TRY)</option>
-                              <option value="INR">Indian Rupee (INR)</option>
-                              <option value="RUB">Russian Ruble (RUB)</option>
-                              <option value="BRL">Brazilian Real (BRL)</option>
-                              <option value="ZAR">South African Rand (ZAR)</option>
-                            </select>
-                            </div>
-                            <div>
-                            <label for="tarrif_type">Type</label>
-                              <select id="tarrif_type" class="form-select w-7/8 mr-4" v-model="TarriffElement_inputs.tarrif_type">
-                              <option value="AD_HOC_PAYMENT">AD_HOC_PAYMENT</option>
-                              <option value="PROFILE_CHEAP">PROFILE_CHEAP</option>
-                              <option value="PROFILE_FAST">PROFILE_FAST</option>
-                              <option value="PROFILE_GREEN">PROFILE_GREEN</option>
-                              <option value="REGULAR">REGULAR</option>
-                            </select>
-                            </div>
-                            <div>
-                            <label for="start_date_time">Start Date-Time:</label>
-                            <input id="start_date_time" type="datetime-local" v-model="TarriffElement_inputs.start_date_time">
-                            </div>
 
-                            <div>
-                            <label for="end_date_time">End Date-Time:</label>
-                            <input id="end_date_time" type="datetime-local" v-model="TarriffElement_inputs.end_date_time">
-                            </div>
+                        <!-- FOR LOOP -->
+                        <div v-for="(altText, index) in TarriffElement_inputs_Patch.tariff_alt_text" :key="index">
+                          <div>
+                            <label :for="'tariff_alt_text_language_' + index">Tariff Alt Language</label>
+                            <select :id="'tariff_alt_text_language_' + index" class="form-select w-7/8 mr-4" v-model="altText.language">
+                              <option value="EN">English</option>
+                              <option value="GR">Greek</option>
+                              <option value="ES">Spanish</option>
+                              <option value="FR">French</option>
+                              <option value="DE">German</option>
+                              <option value="ZH">Chinese</option>
+                              <option value="JA">Japanese</option>
+                              <option value="RU">Russian</option>
+                              <option value="AR">Arabic</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label :for="'tariff_alt_text_text_' + index">Tariff Alt Text</label>
+                            <input :id="'tariff_alt_text_text_' + index" type="text" placeholder="Tariff Text" class="form-input" v-model="altText.text" />
+                          </div>
+                        </div>
 
-                            </div>
+                        <div>
+                          <label for="min_price_excl_vat">Min Price Excl Vat</label>
+                          <input id="min_price_excl_vat" type="number" placeholder="Minimum Price Excluding Vat" class="form-input" step="any" v-model="TarriffElement_inputs_Patch.min_price_excl_vat" />
+                        </div>
+                        <div>
+                          <label for="min_price_incl_vat">Min Price Incl Vat</label>
+                          <input id="min_price_incl_vat" type="number" placeholder="Minimum Price Including Vat" class="form-input" step="any" v-model="TarriffElement_inputs_Patch.min_price_incl_vat" />
+                        </div>
+                        <div>
+                          <label for="max_price_excl_vat">Max Price Excl Vat</label>
+                          <input id="max_price_excl_vat" type="number" placeholder="Maximum Price Excluding Vat" class="form-input" step="any" v-model="TarriffElement_inputs_Patch.max_price_excl_vat" />
+                        </div>
+                        <div>
+                          <label for="max_price_incl_vat">Max Price Incl Vat</label>
+                          <input id="max_price_incl_vat" type="number" placeholder="Maximum Price Including Vat" class="form-input" step="any" v-model="TarriffElement_inputs_Patch.max_price_incl_vat"/>
+                        </div>
+                        <div>
+                          <label for="tarriff_countrycode">Country Code</label>
+                          <input id="tarriff_countrycode" type="text" placeholder="Enter Country Code" maxlength="2" minlength="2" pattern="[A-Za-z]{2}" class="form-input" v-model="TarriffElement_inputs_Patch.tarriff_countrycode"/>
+                        </div>
+                        <div>
+                          <label for="tarriff_party_id">Party ID</label>
+                          <input id="tarriff_party_id" type="text" placeholder="Enter Party ID" maxlength="3" minlength="3" pattern="[A-Za-z]{2}" class="form-input" v-model="TarriffElement_inputs_Patch.tarriff_party_id"/>
+                        </div>
+                        <div>
+                          <label for="currency">Currency</label>
+                          <select id="currency" class="form-select w-7/8 mr-4" v-model="TarriffElement_inputs_Patch.currency">
+                            <option value="EUR">Euro (EUR)</option>
+                            <option value="USD">United States Dollar (USD)</option>
+                            <option value="JPY">Japanese Yen (JPY)</option>
+                            <option value="GBP">British Pound (GBP)</option>
+                            <option value="AUD">Australian Dollar (AUD)</option>
+                            <option value="CAD">Canadian Dollar (CAD)</option>
+                            <option value="CHF">Swiss Franc (CHF)</option>
+                            <option value="CNY">Chinese Yuan (CNY)</option>
+                            <option value="SEK">Swedish Krona (SEK)</option>
+                            <option value="NZD">New Zealand Dollar (NZD)</option>
+                            <option value="MXN">Mexican Peso (MXN)</option>
+                            <option value="SGD">Singapore Dollar (SGD)</option>
+                            <option value="HKD">Hong Kong Dollar (HKD)</option>
+                            <option value="NOK">Norwegian Krone (NOK)</option>
+                            <option value="KRW">South Korean Won (KRW)</option>
+                            <option value="TRY">Turkish Lira (TRY)</option>
+                            <option value="INR">Indian Rupee (INR)</option>
+                            <option value="RUB">Russian Ruble (RUB)</option>
+                            <option value="BRL">Brazilian Real (BRL)</option>
+                            <option value="ZAR">South African Rand (ZAR)</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label for="tarrif_type">Type</label>
+                          <select id="tarrif_type" class="form-select w-7/8 mr-4" v-model="TarriffElement_inputs_Patch.tarrif_type">
+                            <option value="AD_HOC_PAYMENT">AD_HOC_PAYMENT</option>
+                            <option value="PROFILE_CHEAP">PROFILE_CHEAP</option>
+                            <option value="PROFILE_FAST">PROFILE_FAST</option>
+                            <option value="PROFILE_GREEN">PROFILE_GREEN</option>
+                            <option value="REGULAR">REGULAR</option>
+                          </select>
+                        </div>
+                        <div>
+                          
+                          <label for="start_date_time">Start Date-Time:</label>
+                          <label for="start_date_time">{{TarriffElement_inputs_Patch.start_date_time}}</label>
+
+                          <label for="start_date_time_check">Update Start Date Time <input id="start_date_time_check" type="checkbox" v-model="start_date_time_check" class="form-checkbox" /></label>
+                          <!--@change="start_date_time_check_function"-->
+
+                          <input v-if="start_date_time_check"  id="start_date_time" type="datetime-local" v-model="TarriffElement_inputs_Patch.start_date_time" @change="StartDateChange">
+                                
+                              
+                        </div>
+
+                        <div>
+                          <label for="end_date_time">End Date-Time:</label>
+                          <label for="end_date_time_check">{{TarriffElement_inputs_Patch.end_date_time}}</label>
+
+                          <label for="end_date_time_check">Update End Date Time <input id="end_date_time_check" type="checkbox" v-model="end_date_time_check" class="form-checkbox"/></label>
+                          <!-- @change="existing_tarriff_case"-->
+
+                          <input v-if="end_date_time_check" id="end_date_time_check" type="datetime-local" v-model="TarriffElement_inputs_Patch.end_date_time" @change="EndDateChange">
+                        </div>
+
+
+                        <!-- <div>
+                          <label for="end_date_time">End Date-Time Value</label>
+                          <input id="end_date_time" type="text" v-model="end_time">
+                        </div>
+
+                        <div>
+                          <label for="last_updated_date_time">Last Updated Date-Time:</label>
+                          <input id="last_updated_date_time" type="datetime-local" v-model="TarriffElement_inputs_Patch.last_updated_date_time">
+                        </div>-->
+                        
+                        <div>
+                          <label for="last_updated_date_time">Last_Updated Date:</label>
+                          <label for="last_updated_date_time">{{TarriffElement_inputs_Patch.last_updated_date_time}}</label>
+                        </div>
+
+          </div>
                             <!-- ===================================================================TARIFF MAIN=======================================================================-->
 
 
@@ -2075,7 +2102,9 @@
                 
                 <div class="flex justify-end items-center space-x-4 rtl:space-x-reverse">
                     <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
                 </div>
+                
             </form>
         </div>
     
@@ -2724,8 +2753,8 @@ const selectedTariff=ref([]);
 const Task_7_Tarriff_Main=ref([]);
 
 const flag_case=ref([]);
-const selectedMainTariffId=ref('');
-const Task_7_selected_Main_Tariff_Id=ref([]);
+const selectedMainTariffId=ref('');//in the Patch tab
+const Task_7_selected_Main_Tariff_Id=ref([]);//It is trigerred when I chosse specific Tariff in the patch tab
 
 const Task_7_Tarriff_get_info= async () => {
   try {
@@ -2818,11 +2847,66 @@ const Task_7_Get_Functions= async () => {
 
 }
 
+//const end_time=ref('');
+//const EndDateChange= async () => {
+//  end_time.value=formatDateForInput(TarriffElement_inputs_Patch.value.end_date_time)
+//
+//}
 
-const print_tarrif_main_id= async () => {
-  console.log("selectedMainTariffId",selectedMainTariffId.value)
+                        //<div>
+                          
+                          //<label for="start_date_time">Start Date-Time:</label>
+                          //<label for="start_date_time">{{TarriffElement_inputs_Patch.start_date_time}}</label>
+
+                          //<label for="start_date_time_check">Update Start Date TIme</label>
+                          //<input id="start_date_time_check" type="checkbox" v-model="start_date_time_check" class="form-checkbox" @change="start_date_time_check_function"/>
+
+
+                          //<input id="start_date_time" type="datetime-local" v-model="TarriffElement_inputs_Patch.start_date_time" @change="StartDateChange">
+                                
+                              
+                        //</div>
+
+                        //<div>
+                        //  <label for="end_date_time">End Date-Time:</label>
+                        //  <label for="start_date_time">{{TarriffElement_inputs_Patch.end_date_time}}</label>
+
+                         // <label for="use_existing_tarriff_element">Update End Date TIme</label>
+                       //   <input id="use_existing_tarriff_element" type="checkbox" v-model="use_existing_tarriff_element" class="form-checkbox" @change="existing_tarriff_case"/>
+
+
+                        //  <input id="end_date_time" type="datetime-local" v-model="TarriffElement_inputs_Patch.end_date_time" @change="EndDateChange">
+                        //</div>
+
+const start_date_time_check=ref(false);
+
+const StartDateChange = () => {
+
+  TarriffElement_inputs_Patch.value.start_date_time=formatDateForStart_END(TarriffElement_inputs_Patch.value.start_date_time);
 
 }
+
+const end_date_time_check=ref(false);
+const EndDateChange = () => {
+
+TarriffElement_inputs_Patch.value.end_date_time=formatDateForStart_END(TarriffElement_inputs_Patch.value.end_date_time);
+
+}
+
+
+const start_date_time_check_function = () => {
+  
+  if (start_date_time_check.value===true){
+    alert("ON!")
+    //start_date_time_check.value= false;
+  }else{
+    alert("OFF!")
+    //start_date_time_check.value= true;
+
+  }
+
+}
+
 
 
 const TarriffElement_inputs = ref({
@@ -2870,6 +2954,20 @@ const TarriffElement_inputs = ref({
   end_date_time: ""
   });
 
+const TarriffElement_inputs_Patch = ref({
+  tariff_alt_text: [],
+  min_price_excl_vat: "",
+  min_price_incl_vat: "",
+  max_price_excl_vat: "",
+  max_price_incl_vat: "",
+  tarriff_countrycode: "",
+  tarriff_party_id: "",
+  currency: "",
+  tarrif_type: "",
+  start_date_time: "",
+  end_date_time: "",
+  last_updated_date_time: ""
+  });
 
 const submitTarriffElement_inputs = async () => {
     //console.log("Location1 values",Location_inputs)
@@ -3019,11 +3117,6 @@ const submitTarriffElement_inputs = async () => {
 
         //=================== Tarrif Submission Cases ==========================================================
 
-
-
-
-
-
 const submitTarriff_case = async (id_value) => {
   
   console.log("flag_case",flag_case.value);
@@ -3151,57 +3244,180 @@ const submitTarriff_case = async (id_value) => {
 
   }
 
-
-
-
 //===================== Tarrif Adjustment Tools===============================================================
 
+function formatDateForInput(isoString) {
 
-const onTariffSelect=async() =>{
-
-  //selectedMainTariffId
-  try {
-
-        const query = { 
-                        id: selectedMainTariffId.value,
-                        fields: ['tariff_alt_text,min_price,max_price,elements,country_code,party_id,currency,type,start_date_time,end_date_time,last_updated'],
-                        }
-        //const apiUrl = `http://localhost:5173/api/user/?username=${username.value}`;
-        const apiUrl = `http://localhost:5173/api/tariff/`;
-
-        // Construct the URL with query parameters if provided
-        //const queryString = new URLSearchParams(query || {}).toString();
-        //const fullApiUrl = `${apiUrl}${queryString}/`; // Append query parameters
-
-        const queryString = new URLSearchParams(query).toString();
-        const fullApiUrl = `${apiUrl}?${queryString}`;
-        //const fullApiUrl = `${apiUrl}`;
-        console.log('Task7_Update URL:',fullApiUrl)
+    const date = new Date(isoString);
 
 
-        const requestOptions = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${token.value}`,
-            },
-        };
-
-        const response = await fetch(fullApiUrl, requestOptions);
-        const data = await response.json(); // Parse response body as JSON
-        Task_7_selected_Main_Tariff_Id.value=data
-        console.log("Task_7_selected_Main_Tariff_Id",Task_7_selected_Main_Tariff_Id.value)
-        } catch (error) {
-        console.error('An error occurred:', error.message);
-        return null; // Return null in case of error
-        }
+    // Extract the components in UTC
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // getUTCMonth() returns month from 0-11
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const year = date.getUTCFullYear();
+    const hours = String(date.getUTCHours()).padStart(2, '0'); // 24-hour format in UTC
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
 
 
+
+
+
+    console.log("Actual string",isoString)
+    console.log("date",date)
+    console.log("month",month)
+    console.log("day",day)
+    console.log("year",year)
+    console.log("hours",hours)
+    console.log("minutes",minutes)
+
+    const dateInput = `${month}/${day}/${year}`;
+    const timeInput  = `${hours}:${minutes}`;
+  return `${dateInput} ${timeInput}`
 }
 
+function formatDateForStart_END(isoString) {
+
+const date = new Date(isoString);
 
 
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // getMonth() returns month from 0-11
+  const day = String(date.getDate()).padStart(2, '0');
+  const year = date.getFullYear();
+  const hours = String(date.getHours()).padStart(2, '0'); // 24-hour format
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+
+
+const dateInput = `${month}/${day}/${year}`;
+const timeInput  = `${hours}:${minutes}`;
+return `${dateInput} ${timeInput}`
+}
+
+const onTariffSelect = async () => {
+  try {
+    const query = {
+      id: selectedMainTariffId.value,
+      fields: ['tariff_alt_text', 'min_price', 'max_price', 'elements', 'country_code', 'party_id', 'currency', 'type', 'start_date_time', 'end_date_time', 'last_updated']
+    };
+    const apiUrl = `http://localhost:5173/api/tariff/`;
+    const queryString = new URLSearchParams(query).toString();
+    const fullApiUrl = `${apiUrl}?${queryString}`;
+    console.log('Task7_Update URL:', fullApiUrl);
+
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token.value}`,
+      },
+    };
+
+    const response = await fetch(fullApiUrl, requestOptions);
+    const data = await response.json();
+
+    //function parseDateTime(dateStr, timeStr) {
+    //  if (!dateStr || !timeStr) return null;
+
+      // Convert dateStr (MM/DD/YYYY) and timeStr (hh:mm AM/PM) to ISO format
+   //   const dateParts = dateStr.split('/');
+   //   const timeParts = timeStr.split(/[: ]/);
+   //   const hours = timeParts[2] === 'PM' ? parseInt(timeParts[0]) + 12 : parseInt(timeParts[0]);
+
+//      const isoString = new Date(
+  //      `${dateParts[2]}-${dateParts[0]}-${dateParts[1]}T${hours}:${timeParts[1]}:00`
+    //  ).toISOString();
+
+      //return isoString;
+    //}
+
+    
+    
+    
+    
+    //const formatDateForInput = (dateString) => {
+    //  
+    //      const date = new Date(dateString);
+    //      const year = date.getFullYear();
+    //      const month = String(date.getMonth() + 1).padStart(2, '0');
+    //      const day = String(date.getDate()).padStart(2, '0');
+    //      const hours = String(date.getHours()).padStart(2, '0');
+    //      const minutes = String(date.getMinutes()).padStart(2, '0');
+    //
+    //      return `${month}/${day}/${year} ${hours}:${minutes} PM`;
+    //    };
+
+
+    console.log("data", data[0]);
+
+    TarriffElement_inputs_Patch.value = {
+      tariff_alt_text: data[0].tariff_alt_text ? data[0].tariff_alt_text.map(item => ({ language: item.language, text: item.text })) : [],
+      min_price_excl_vat: data[0].min_price ? data[0].min_price.excl_vat : "",
+      min_price_incl_vat: data[0].min_price ? data[0].min_price.incl_vat : "",
+      max_price_excl_vat: data[0].max_price ? data[0].max_price.excl_vat : "",
+      max_price_incl_vat: data[0].max_price ? data[0].max_price.incl_vat : "",
+      tarriff_countrycode: data[0].country_code || "",
+      tarriff_party_id: data[0].party_id || "",
+      currency: data[0].currency || "",
+      tarrif_type: data[0].type || "",
+      start_date_time: formatDateForStart_END(data[0].start_date_time) || "",
+      end_date_time: formatDateForStart_END(data[0].end_date_time) || "",
+      last_updated_date_time: formatDateForInput(data[0].last_updated)  || ""
+    };
+    
+    // Format start_date_time for datetime-local input
+    //if (data[0].last_updated_date_time) {
+     // TarriffElement_inputs_Patch.value.last_updated_date_time = data[0].last_updated_date_time.slice(0, 16); // Extract YYYY-MM-DDTHH:MM from "2024-05-04T23:29:53.474000Z"
+    //}
+
+    console.log("TarriffElement_inputs_Patch", TarriffElement_inputs_Patch.value);
+  } catch (error) {
+    console.error('An error occurred:', error.message);
+    return null;
+  }
+};
+
+const submitForm = async () => {
+  try {
+    const updatedData = {};
+    const inputs = TarriffElement_inputs_Patch.value;
+
+    // Include only non-empty fields
+    if (inputs.tariff_alt_text && inputs.tariff_alt_text.length) {
+      updatedData.tariff_alt_text = inputs.tariff_alt_text.filter(item => item.text);
+    }
+    if (inputs.min_price_excl_vat) updatedData.min_price_excl_vat = inputs.min_price_excl_vat;
+    if (inputs.min_price_incl_vat) updatedData.min_price_incl_vat = inputs.min_price_incl_vat;
+    if (inputs.max_price_excl_vat) updatedData.max_price_excl_vat = inputs.max_price_excl_vat;
+    if (inputs.max_price_incl_vat) updatedData.max_price_incl_vat = inputs.max_price_incl_vat;
+    if (inputs.tarriff_countrycode) updatedData.tarriff_countrycode = inputs.tarriff_countrycode;
+    if (inputs.tarriff_party_id) updatedData.tarriff_party_id = inputs.tarriff_party_id;
+    if (inputs.currency) updatedData.currency = inputs.currency;
+    if (inputs.tarrif_type) updatedData.tarrif_type = inputs.tarrif_type;
+    if (inputs.start_date_time) updatedData.start_date_time = inputs.start_date_time;
+    if (inputs.end_date_time) updatedData.end_date_time = inputs.end_date_time;
+    if (inputs.last_updated_date_time) updatedData.last_updated_date_time = inputs.last_updated_date_time;
+
+    const apiUrl = `http://localhost:5173/api/tariff/${selectedMainTariffId.value}/`;
+    console.log('PATCH URL:', apiUrl);
+    console.log('Updated Data:', updatedData);
+
+    const requestOptions = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token.value}`,
+      },
+      body: JSON.stringify(updatedData),
+    };
+
+    const response = await fetch(apiUrl, requestOptions);
+    const result = await response.json();
+    console.log('PATCH Response:', result);
+  } catch (error) {
+    console.error('An error occurred:', error.message);
+  }
+};
 
 
 //==================================ADMIN TOOLS======================================================
@@ -3778,7 +3994,7 @@ return {
       offsetX: isRtl ? -40 : 0,
     },
   },
-  labels: whMeterLastLabels,//['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  labels: whMeterLastLabels,//["0:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00","8:00","9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],//whMeterLastLabels,//['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
   legend: {
     horizontalAlign: 'left',
   },
@@ -3794,8 +4010,8 @@ return {
 
 const areaChartSeries = ref([
       {
-          name: 'kWh Amount',
-          data: values//[16800, 16800, 15500] //whMeterLast//whMeterLastLabels//[16800, 16800, 15500] 17800, 15500, 17000, 19000, 16000, 15000, 17000, 14000, 17000],
+          name: 'Capacity Amount kW',
+          data: values//[22,22,22,22,22,22,22,22,22,22,22,15,15,11,11,11,11,22,22,22,22,22,22,22]//values//[16800, 16800, 15500] //whMeterLast//whMeterLastLabels//[16800, 16800, 15500] 17800, 15500, 17000, 19000, 16000, 15000, 17000, 14000, 17000],
       },
       ]);
 

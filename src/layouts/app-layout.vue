@@ -1,12 +1,9 @@
-<template>
+﻿<template>
     <!--  BEGIN MAIN CONTAINER  -->
     <div class="relative">
-        <!-- sidebar menu overlay -->
-        <div class="fixed inset-0 bg-[black]/60 z-50 lg:hidden" :class="{ hidden: !store.sidebar }" @click="store.toggleSidebar()"></div>
-
         <!-- screen loader -->
         <div
-            v-show="store.isShowMainLoader"
+            v-show="store.mainLoader"
             class="screen_loader fixed inset-0 bg-[#fafafa] dark:bg-[#060818] z-[60] grid place-content-center animate__animated"
         >
             <svg width="64" height="64" viewBox="0 0 135 135" xmlns="http://www.w3.org/2000/svg" fill="#4361ee">
@@ -23,6 +20,7 @@
             </svg>
         </div>
 
+        <!-- Scroll to top button -->
         <div class="fixed bottom-6 ltr:right-6 rtl:left-6 z-50">
             <template v-if="showTopButton">
                 <button
@@ -47,44 +45,25 @@
             </template>
         </div>
 
-        <!-- BEGIN APP SETTING LAUNCHER -->
-        <Setting />
-        <!-- END APP SETTING LAUNCHER -->
-
-        <div class="main-container text-black dark:text-white-dark min-h-screen" :class="[store.navbar]">
-            <!--  BEGIN SIDEBAR  -->
-            <Sidebar />
-            <!--  END SIDEBAR  -->
-
-            <div class="main-content flex flex-col min-h-screen">
-                <!--  BEGIN TOP NAVBAR  
-                <Header />-->
-                <!--  END TOP NAVBAR  -->
-
-                <!--  BEGIN CONTENT AREA  -->
-                <div class="p-6 animation">
-                    <router-view></router-view>
-                </div>
-                <!--  END CONTENT AREA  -->
-
-                <!-- BEGIN FOOTER -->
-                <Footer />
-                <!-- END FOOTER -->
+        <!-- Main container -->
+        <div class="w-full min-h-screen bg-white dark:bg-[#0e1726]">
+            <!--  BEGIN CONTENT AREA  -->
+            <div class="w-full animation animate__animated" :class="[store.animation]">
+                <router-view></router-view>
             </div>
+            <!--  END CONTENT AREA  -->
         </div>
     </div>
 </template>
+
 <script setup lang="ts">
     import { ref, onMounted } from 'vue';
-    import Sidebar from '@/components/layout/Sidebar.vue';
-    import Header from '@/components/layout/Header.vue';
-    import Footer from '@/components/layout/Footer.vue';
-    import Setting from '@/components/ThemeCustomizer.vue';
     import appSetting from '@/app-setting';
-
     import { useAppStore } from '@/stores/index';
+
     const store = useAppStore();
     const showTopButton = ref(false);
+
     onMounted(() => {
         window.onscroll = () => {
             if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
@@ -95,10 +74,13 @@
         };
 
         const eleanimation: any = document.querySelector('.animation');
-        eleanimation.addEventListener('animationend', function () {
-            appSetting.changeAnimation('remove');
-        });
-        store.toggleMainLoader();
+        if (eleanimation) {
+            eleanimation.addEventListener('animationend', function () {
+                appSetting.changeAnimation('remove');
+            });
+        }
+        
+        store.toggleMainLoader(false);
     });
 
     const goToTop = () => {

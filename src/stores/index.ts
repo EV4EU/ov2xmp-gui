@@ -1,121 +1,80 @@
-import { defineStore } from 'pinia';
-import i18n from '@/i18n';
-import appSetting from '@/app-setting';
+﻿import { defineStore } from 'pinia';
 
 export const useAppStore = defineStore('app', {
     state: () => ({
-        isDarkMode: false,
-        mainLayout: 'app',
         theme: 'light',
+        sidebar: false,
         menu: 'vertical',
         layout: 'full',
         rtlClass: 'ltr',
         animation: '',
         navbar: 'navbar-sticky',
         locale: 'en',
-        sidebar: false,
-        languageList: [
-            { code: 'zh', name: 'Chinese' },
-            { code: 'da', name: 'Danish' },
-            { code: 'en', name: 'English' },
-            { code: 'fr', name: 'French' },
-            { code: 'de', name: 'German' },
-            { code: 'el', name: 'Greek' },
-            { code: 'hu', name: 'Hungarian' },
-            { code: 'it', name: 'Italian' },
-            { code: 'ja', name: 'Japanese' },
-            { code: 'pl', name: 'Polish' },
-            { code: 'pt', name: 'Portuguese' },
-            { code: 'ru', name: 'Russian' },
-            { code: 'es', name: 'Spanish' },
-            { code: 'sv', name: 'Swedish' },
-            { code: 'tr', name: 'Turkish' },
-            { code: 'ae', name: 'Arabic' },
-        ],
-        isShowMainLoader: true,
+        mainLayout: 'app',
         semidark: false,
+        mainLoader: false,
+        languageList: [
+            { code: 'en', name: 'English' },
+            { code: 'el', name: 'Greek' },
+        ],
     }),
-
     actions: {
-        setMainLayout(payload: any = null) {
-            this.mainLayout = payload; //app , auth
-        },
-        toggleTheme(payload: any = null) {
-            payload = payload || this.theme; // light|dark|system
+        toggleTheme(payload = null) {
+            payload = payload || this.theme;
             localStorage.setItem('theme', payload);
             this.theme = payload;
-            if (payload == 'light') {
-                this.isDarkMode = false;
-            } else if (payload == 'dark') {
-                this.isDarkMode = true;
-            } else if (payload == 'system') {
-                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    this.isDarkMode = true;
-                } else {
-                    this.isDarkMode = false;
-                }
-            }
-
-            if (this.isDarkMode) {
-                document.querySelector('body')?.classList.add('dark');
-            } else {
+            if (payload === 'light') {
                 document.querySelector('body')?.classList.remove('dark');
+            } else {
+                document.querySelector('body')?.classList.add('dark');
             }
         },
-        toggleMenu(payload: any = null) {
-            payload = payload || this.menu; // vertical, collapsible-vertical, horizontal
-            this.sidebar = false; // reset sidebar state
+        toggleMenu(payload = null) {
+            payload = payload || this.menu;
+            this.sidebar = false;
             localStorage.setItem('menu', payload);
             this.menu = payload;
         },
-        toggleLayout(payload: any = null) {
-            payload = payload || this.layout; // full, boxed-layout
+        toggleLayout(payload = null) {
+            payload = payload || this.layout;
             localStorage.setItem('layout', payload);
             this.layout = payload;
         },
-        toggleRTL(payload: any = null) {
-            payload = payload || this.rtlClass; // rtl, ltr
+        toggleRTL(payload = null) {
+            payload = payload || this.rtlClass;
             localStorage.setItem('rtlClass', payload);
             this.rtlClass = payload;
-            document.querySelector('html')?.setAttribute('dir', this.rtlClass || 'ltr');
+            document.querySelector('html')?.setAttribute('dir', payload || 'ltr');
         },
-        toggleAnimation(payload: any = null) {
-            payload = payload || this.animation; // animate__fadeIn, animate__fadeInDown, animate__fadeInUp, animate__fadeInLeft, animate__fadeInRight, animate__slideInDown, animate__slideInLeft, animate__slideInRight, animate__zoomIn
+        toggleAnimation(payload = null) {
+            payload = payload || this.animation;
             payload = payload?.trim();
             localStorage.setItem('animation', payload);
             this.animation = payload;
-            appSetting.changeAnimation();
         },
-        toggleNavbar(payload: any = null) {
-            payload = payload || this.navbar; // navbar-sticky, navbar-floating, navbar-static
+        toggleNavbar(payload = null) {
+            payload = payload || this.navbar;
             localStorage.setItem('navbar', payload);
             this.navbar = payload;
         },
-        toggleSemidark(payload: any = null) {
+        toggleSemidark(payload = null) {
             payload = payload || false;
             localStorage.setItem('semidark', payload);
             this.semidark = payload;
         },
-        toggleLocale(payload: any = null) {
+        toggleLocale(payload = null) {
             payload = payload || this.locale;
-            i18n.global.locale.value = payload;
             localStorage.setItem('i18n_locale', payload);
             this.locale = payload;
-            if(this.locale?.toLowerCase() === 'ae') {
-                this.toggleRTL('rtl');
-            } else {
-                this.toggleRTL('ltr');
-            }
         },
-        toggleSidebar(state: boolean = false) {
+        toggleSidebar() {
             this.sidebar = !this.sidebar;
         },
-        toggleMainLoader(state: boolean = false) {
-            this.isShowMainLoader = true;
-            setTimeout(() => {
-                this.isShowMainLoader = false;
-            }, 500);
+        setMainLayout(payload = null) {
+            this.mainLayout = payload || 'app';
+        },
+        toggleMainLoader(payload = null) {
+            this.mainLoader = payload !== null ? payload : !this.mainLoader;
         },
     },
-    getters: {},
 });

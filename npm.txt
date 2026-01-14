@@ -1,8 +1,0 @@
-npm install axios
-npm install cors
-npm install leaflet
-npm install --save leaflet @vue-leaflet/vue-leaflet
-npm install crypto-js
-npm install --save leaflet-routing-machine
-npm install @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/vue-fontawesome
-

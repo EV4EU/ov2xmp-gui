@@ -3,8 +3,6 @@ import vue from '@vitejs/plugin-vue';
 import path from 'path';
 import vueI18n from '@intlify/vite-plugin-vue-i18n';
 
-
-
 export default defineConfig({
     plugins: [
         vue(),
@@ -20,18 +18,17 @@ export default defineConfig({
     optimizeDeps: {
         include: ['quill'],
     },
-
     server: {
+	host: '0.0.0.0',
+      port: 5173,
         proxy: {
-          '/api': {
-            target: 'http://iotlab.trsc-ppc.gr:8088',
-            changeOrigin: true,
-            secure: false,
-          },
+            '/api': {
+                target: 'https://ev4eu.rid-ppcinspectra.com',
+                changeOrigin: true,
+                secure: false,
+                rewrite: path => path.replace(/^\/api/, ''), // If running Locally and Backend is hosted, then comment this line
+            },
+
         },
-      },
-
-
+    },
 });
-//http://iotlab.trsc-ppc.gr:8088
-//http://ov2xmp.trsc.net:8000
